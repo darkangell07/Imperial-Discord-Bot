@@ -4,10 +4,29 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { logger } from './utils/logger.js';
-import http from 'http';
+import express from 'express';
 
 // Configure environment variables
 config();
+
+// Create Express app
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Keep-alive route
+app.get('/', (req, res) => {
+  res.status(200).send('Bot is running!');
+});
+
+// Keep-alive route for uptime monitoring services
+app.get('/ping', (req, res) => {
+  res.status(200).send('Pong!');
+});
+
+// Start Express server
+app.listen(PORT, () => {
+  logger.info(`Keep-alive server running on port ${PORT}`);
+});
 
 // Create client instance
 const client = new Client({
@@ -129,16 +148,5 @@ process.on('unhandledRejection', error => {
   logger.error('Unhandled promise rejection:', error);
 });
 
-// Initialize bot
+// Initialize bot when imported
 initializeBot();
-
-// Create a simple HTTP server for Render.com to keep the bot alive
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ status: 'Bot is running!', timestamp: new Date().toISOString() }));
-});
-
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  logger.info(`HTTP server running on port ${PORT}`);
-});

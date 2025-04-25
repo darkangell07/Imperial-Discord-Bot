@@ -1,66 +1,76 @@
-# Imperial Discord Bot
+# Discord Bot
 
-A versatile Discord bot with moderation, economy, and fun commands!
+A Discord bot built with discord.js that includes various commands for administration, economy, fun, games, and moderation.
 
-## Features
-
-- 🛠️ **Moderation Commands**: Keep your server safe with ban, kick, mute, etc.
-- 💰 **Economy System**: Earn coins, shop, and manage your inventory
-- 🎮 **Games**: Play fun games to earn coins and have fun
-- 🤖 **Utility**: Helpful utility commands for server management
-
-## Setup
+## Running Locally
 
 1. Clone this repository
-2. Install dependencies: `npm install`
-3. Create a `.env` file with your Discord bot token:
+2. Install dependencies:
    ```
-   DISCORD_TOKEN=your_token_here
+   npm install
    ```
-4. Start the bot: `npm start`
+3. Create a `.env` file in the root directory with your Discord bot token:
+   ```
+   DISCORD_TOKEN=your_discord_token_here
+   ```
+4. Run the bot:
+   ```
+   npm start
+   ```
 
-## Deployment on Render.com (24/7)
+## Deploying to Render.com (Free Tier)
 
-This bot is configured to be deployed on Render.com for 24/7 uptime:
+### Prerequisites
+- A [Render.com](https://render.com) account
+- A Discord bot application with token
 
-1. Create a free account on [Render.com](https://render.com)
-2. Fork this repository to your GitHub account
-3. On Render dashboard, click "New" and select "Web Service"
-4. Connect your GitHub account and select this repository
-5. Configure your service:
-   - Name: `imperial-discord-bot` (or your preferred name)
-   - Environment: `Node`
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-6. Add the environment variable:
+### Step 1: Set Up Your Render.com Account
+1. Sign up for Render.com if you haven't already
+2. Go to your Dashboard and click "New +"
+
+### Step 2: Configure Web Service
+1. Select "Web Service"
+2. Connect your repository (GitHub, GitLab, etc.)
+3. Use the following settings:
+   - **Name**: Your bot name
+   - **Environment**: Node
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Instance Type**: Free
+
+### Step 3: Add Environment Variables
+1. In the Render Dashboard, navigate to your service
+2. Go to "Environment" tab
+3. Add the following environment variable:
    - Key: `DISCORD_TOKEN`
    - Value: Your Discord bot token
-7. Select the free plan and click "Create Web Service"
 
-### Benefits of Render.com for 24/7 Hosting
+### Step 4: Deploy
+1. Click "Create Web Service"
+2. Wait for deployment to complete
 
-- **Free Tier 24/7 Uptime**: Unlike Vercel's free tier, Render's free plan offers continuous runtime without sleep
-- **Automatic Deployments**: Automatically deploys when you push changes to your repository
-- **Easy Environment Management**: Simple interface for managing environment variables
-- **Monitoring & Logs**: Real-time logs and monitoring through the Render dashboard
-
-## Command Categories
-
-- **Economy**: `balance`, `daily`, `work`, `shop`, `inventory`, `transfer`
-- **Fun**: Various fun and interactive commands
-- **Moderation**: Commands to manage users and keep your server safe
-- **Admin**: Server configuration and settings
-
-## Built With
-
-- [Discord.js](https://discord.js.org/) - Discord API wrapper
-- [Quick.db](https://quickdb.js.org/) - Local database storage
+### Important Notes About Render Free Tier
+- Free web services spin down after 15 minutes of inactivity
+- Services spin back up when receiving traffic (this may take up to a minute)
+- Each free service gets 750 hours of runtime per month
+- For a Discord bot, consider using a service like UptimeRobot to ping your bot every 14 minutes to prevent it from spinning down
 
 ## Commands
 
-Use `!help` to see all available commands.
-Use `!help [command]` to get detailed information about a specific command.
+The bot includes commands for:
+- Administration
+- Economy
+- Fun
+- Games
+- General
+- Moderation
+
+## Features
+- Command handling system
+- Event handling system
+- Logging
+- Role management
+- And more!
 
 ## License
-
-This project is licensed under the MIT License.
+MIT
