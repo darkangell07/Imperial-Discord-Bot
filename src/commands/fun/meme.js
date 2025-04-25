@@ -9,16 +9,49 @@ export default {
   cooldown: 5,
   async execute(client, message, args) {
     try {
-      // Fetch meme from Reddit API
-      const response = await axios.get('https://www.reddit.com/r/memes/random/.json');
-      const post = response.data[0].data.children[0].data;
+      // Try multiple subreddits in case one fails
+      const subreddits = ['memes', 'dankmemes', 'funny'];
+      let success = false;
+      let response;
+      let errorMessage = '';
+      
+      // Try each subreddit until one works
+      for (const subreddit of subreddits) {
+        try {
+          response = await axios.get(`https://www.reddit.com/r/${subreddit}/hot.json?limit=100`);
+          success = true;
+          break;
+        } catch (err) {
+          errorMessage = err.message;
+          continue;
+        }
+      }
+      
+      if (!success) {
+        throw new Error(`Failed to fetch from any subreddit: ${errorMessage}`);
+      }
+      
+      // Filter out stickied and non-image posts
+      const posts = response.data.data.children.filter(post => 
+        !post.data.stickied && 
+        (post.data.url.endsWith('.jpg') || 
+         post.data.url.endsWith('.png') || 
+         post.data.url.endsWith('.gif'))
+      );
+      
+      if (posts.length === 0) {
+        return message.reply('No suitable memes found. Please try again later.');
+      }
+      
+      // Get a random post from the filtered list
+      const randomPost = posts[Math.floor(Math.random() * posts.length)].data;
       
       // Get post details
-      const title = post.title;
-      const url = post.url;
-      const upvotes = post.ups;
-      const author = post.author;
-      const postLink = `https://reddit.com${post.permalink}`;
+      const title = randomPost.title;
+      const url = randomPost.url;
+      const upvotes = randomPost.ups;
+      const author = randomPost.author;
+      const postLink = `https://reddit.com${randomPost.permalink}`;
       
       // Create embed
       const embed = createEmbed({
