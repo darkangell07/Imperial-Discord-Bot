@@ -1,55 +1,41 @@
-# Imperial Discord Bot with Dashboard
+# Imperial Discord Bot
 
-A versatile Discord bot with a web dashboard for monitoring and control.
+A versatile Discord bot with moderation, economy, and fun commands!
 
 ## Features
 
-- 🤖 **Discord Bot**: A powerful Discord bot with various commands
-- 📊 **Web Dashboard**: Monitor bot status and control operations
-- 🚀 **Vercel Deployment**: Easy deployment to Vercel's serverless platform
+- 🛠️ **Moderation Commands**: Keep your server safe with ban, kick, mute, etc.
+- 💰 **Economy System**: Earn coins, shop, and manage your inventory
+- 🎮 **Games**: Play fun games to earn coins and have fun
+- 🤖 **Utility**: Helpful utility commands for server management
 
 ## Setup
 
 1. Clone this repository
 2. Install dependencies: `npm install`
-3. Create a `.env` file with your configuration:
+3. Create a `.env` file with your Discord bot token:
    ```
    DISCORD_TOKEN=your_token_here
-   DISCORD_APP_ID=your_app_id_here
-   DISCORD_PUBLIC_KEY=your_public_key_here
    ```
-4. Run the development server: `npm run dev`
+4. Start the bot: `npm start`
 
-## Dashboard
+## Command Categories
 
-The dashboard provides:
-- Real-time bot status monitoring
-- Control buttons to restart or shutdown the bot
-- Stats about the bot's performance
+- **Economy**: `balance`, `daily`, `work`, `shop`, `inventory`, `transfer`
+- **Fun**: Various fun and interactive commands
+- **Moderation**: Commands to manage users and keep your server safe
+- **Admin**: Server configuration and settings
 
-## Deploying to Vercel
+## Built With
 
-1. Create a Vercel account if you don't have one
-2. Install Vercel CLI: `npm i -g vercel`
-3. Run `vercel login` and follow the prompts
-4. Run `npm run build` to build the project
-5. Run `vercel` to deploy to Vercel
-6. Add your environment variables in the Vercel dashboard:
-   - Go to your project settings
-   - Navigate to "Environment Variables"
-   - Add all variables from your `.env` file
+- [Discord.js](https://discord.js.org/) - Discord API wrapper
+- [Quick.db](https://quickdb.js.org/) - Local database storage
 
-## Important Note for Serverless Deployments
-
-In a serverless environment like Vercel:
-- The bot runs as a serverless function, responding to interactions
-- The restart/shutdown buttons in the dashboard simulate these actions
-- For true restart/shutdown capabilities, you would need to use Vercel's API to redeploy or integrate with a database
-
-## Bot Commands
+## Commands
 
 Use `!help` to see all available commands.
+Use `!help [command]` to get detailed information about a specific command.
 
 ## License
 
-This project is open source.
+This project is licensed under the MIT License.

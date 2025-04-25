@@ -58,6 +58,13 @@ export default {
           `• Total: **${textChannels + voiceChannels + categoryChannels}**`,
           inline: true
         },
+        { name: '⚙️ Configuration', value: 
+          `• Prefix: **${prefix}**\n` +
+          `• Welcome Channel: ${guildSettings.welcomeChannel ? `<#${guildSettings.welcomeChannel}>` : '**Not set**'}\n` +
+          `• Moderation Logs: ${guildSettings.moderationLogs ? `<#${guildSettings.moderationLogs}>` : '**Not set**'}\n` +
+          `• Automod: **${guildSettings.automod?.enabled ? 'Enabled' : 'Disabled'}**`,
+          inline: false
+        },
         { name: '📅 Server Created', value: 
           `**${createdDate}** at **${createdTime}**\n` +
           `(${daysAgo} days ago)`,

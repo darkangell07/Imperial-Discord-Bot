@@ -4,12 +4,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { logger } from './utils/logger.js';
-import { isBotDisabled, markBotOnline, incrementCommandCounter } from './utils/bot-status.js';
 
 // Configure environment variables
 config();
 
-// Create a new client instance
+// Create client instance
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -44,27 +43,7 @@ for (const file of eventFiles) {
   const eventModule = await import(`file://${filePath}`);
   const event = eventModule.default;
   
-  if (event.name === 'interactionCreate') {
-    // Modify the interaction create handler to check if bot is disabled
-    client.on(event.name, async (...args) => {
-      const interaction = args[0];
-      
-      // Check if bot is disabled before processing the command
-      if (isBotDisabled() && interaction.isCommand()) {
-        return interaction.reply({
-          content: "⚠️ The bot is currently disabled. Please try again later.",
-          ephemeral: true
-        });
-      }
-      
-      // Process the interaction and increment command counter if it's a command
-      if (interaction.isCommand()) {
-        incrementCommandCounter();
-      }
-      
-      await event.execute(client, ...args);
-    });
-  } else if (event.once) {
+  if (event.once) {
     client.once(event.name, (...args) => event.execute(client, ...args));
   } else {
     client.on(event.name, (...args) => event.execute(client, ...args));
@@ -126,18 +105,39 @@ Object.entries(categories).forEach(([category, count]) => {
   logger.info(`- ${category}: ${count} commands`);
 });
 
-// Log in to Discord with your client's token
-client.login(process.env.DISCORD_TOKEN)
-  .then(() => {
-    logger.info('Successfully logged in to Discord');
-    // Mark the bot as online and record server count
-    markBotOnline(client.guilds.cache.size);
-  })
-  .catch(error => {
-    logger.error('Failed to login to Discord:', error);
-    process.exit(1);
-  });
+// Initialize the client if not already initialized
+let isReady = false;
 
+const initializeBot = async () => {
+  if (!isReady) {
+    try {
+      // Log in to Discord
+      await client.login(process.env.DISCORD_TOKEN);
+      isReady = true;
+      logger.info('Bot successfully logged in');
+    } catch (error) {
+      logger.error('Failed to login to Discord:', error);
+      isReady = false;
+    }
+  }
+  return isReady;
+};
+
+// Handle unhandled promise rejections
 process.on('unhandledRejection', error => {
   logger.error('Unhandled promise rejection:', error);
 });
+
+// Initialize bot when imported
+initializeBot();
+
+// Export an HTTP handler for Vercel
+export default async function handler(req, res) {
+  // Initialize the bot if not already done
+  if (!isReady) {
+    await initializeBot();
+  }
+  
+  // Simple status endpoint for health checks
+  res.status(200).json({ status: 'Bot is running!' });
+}

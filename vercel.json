@@ -2,21 +2,20 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
-      "use": "@vercel/next"
+      "src": "src/bot.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/discord/(.*)",
-      "dest": "/api/discord/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "src/bot.js"
     }
   ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "crons": [
+    {
+      "path": "/api/keep-alive",
+      "schedule": "*/5 * * * *"
+    }
+  ]
 } 
