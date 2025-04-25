@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { logger } from './utils/logger.js';
+import http from 'http';
 
 // Configure environment variables
 config();
@@ -128,16 +129,16 @@ process.on('unhandledRejection', error => {
   logger.error('Unhandled promise rejection:', error);
 });
 
-// Initialize bot when imported
+// Initialize bot
 initializeBot();
 
-// Export an HTTP handler for Vercel
-export default async function handler(req, res) {
-  // Initialize the bot if not already done
-  if (!isReady) {
-    await initializeBot();
-  }
-  
-  // Simple status endpoint for health checks
-  res.status(200).json({ status: 'Bot is running!' });
-}
+// Create a simple HTTP server for Render.com to keep the bot alive
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ status: 'Bot is running!', timestamp: new Date().toISOString() }));
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  logger.info(`HTTP server running on port ${PORT}`);
+});

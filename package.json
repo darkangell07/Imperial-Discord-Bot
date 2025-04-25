@@ -7,6 +7,9 @@
     "start": "node src/bot.js",
     "dev": "nodemon src/bot.js"
   },
+  "engines": {
+    "node": ">=16.x"
+  },
   "dependencies": {
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
