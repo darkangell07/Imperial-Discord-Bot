@@ -1,0 +1,27 @@
+[
+  [
+    "1357737930831167650",
+    {
+      "guildId": "1357737930831167650",
+      "prefix": "!",
+      "welcomeChannel": null,
+      "welcomeMessage": "Welcome to the server, {user}!",
+      "welcomeDmEnabled": false,
+      "welcomeDmMessage": "Welcome to {server}, {user}! We hope you enjoy your stay.",
+      "restrictedChannels": {
+        "economy": null,
+        "games": null,
+        "fun": null,
+        "general": null
+      },
+      "moderationLogs": null,
+      "automod": {
+        "enabled": false,
+        "filterProfanity": false,
+        "maxMentions": 5,
+        "maxEmojis": 10,
+        "antiSpam": false
+      }
+    }
+  ]
+]
